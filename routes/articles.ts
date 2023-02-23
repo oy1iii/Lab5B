@@ -1,39 +1,45 @@
-import Router, {RouterContext} from "koa-router";
+import Router, { RouterContext } from "koa-router";
+import bodyParser from "koa-bodyparser";
 
 const articles = [
-  {title: 'Hello article', fullText: 'some text to fill the body'},
-  {title: 'another article', fullText: 'again here is some text here to fill'},
-  {title: 'conventry university', fullText: 'again here is some text here to fill'},
-  {title: 'smart campus', fullText: 'again here is some text here to fill'}
+  { title: 'Hello article', fullText: 'some text to fill the body' },
+  { title: 'another article', fullText: 'again here is some text here to fill' },
+  { title: 'conventry university', fullText: 'again here is some text here to fill' },
+  { title: 'smart campus', fullText: 'again here is some text here to fill' }
 ]
 
-const router = new Router({prefix: '/api/v1/articles'});
+const router = new Router({ prefix: '/api/v1/articles' });
 
 const getAll = async (ctx: RouterContext, next: any) => {
   ctx.body = articles;
-  await.next();
+  await next();
 }
 
 const createArticle = async (ctx: RouterContext, next: any) => {
-  await.next();
+  let { title, fullText } = ctx.request.body;
+  let newArticle = { title: title, fullText: fullText };
+  articles.push(newArticle)
+  ctx.status = 201;
+  ctx.body = newArticle;
+  await next();
 }
 
 const getById = async (ctx: RouterContext, next: any) => {
-  await.next();
+  await next();
 }
 
 const updateArticle = async (ctx: RouterContext, next: any) => {
-  await.next();
+  await next();
 }
 
 const deleteArticle = async (ctx: RouterContext, next: any) => {
-  await.next();
+  await next();
 }
 
 router.get('/', getAll);
-router.get('/', createArticle);
+router.post('/', bodyParser(), createArticle);
 router.get('/:id', getById);
-router.get('/:id', updateArticle);
-router.get('/:id', deleteArticle);
+router.put('/:id', updateArticle);
+router.delete('/:id', deleteArticle);
 
-export{ router }
+export { router }
