@@ -3,6 +3,7 @@ import Koa from "koa"
 import logger from "koa-logger"
 import json from "koa-json"
 import {router as articles} from "./routes/articles"
+import {router as users} from "./routes/users"
 
 const app: Koa = new Koa();
 // const router: Router = new Router();
@@ -16,7 +17,9 @@ const app: Koa = new Koa();
 app.use(logger());
 app.use(json());
 // app.user(router.routes());
+app.use(users.routes());
 app.use(articles.routes());
+
 
 app.use(async(ctx: RouterContext, next: any) => {
   try{
